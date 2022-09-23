@@ -17,11 +17,16 @@ class StartingModel {
   );
 }
 
-class StartScreen extends StatelessWidget {
-  var nextController = PageController(initialPage: 0);
+class StartScreen extends StatefulWidget {
+  @override
+  State<StartScreen> createState() => _StartScreenState();
+}
 
+class _StartScreenState extends State<StartScreen> {
+  var nextController = PageController();
 
-  List<StartingModel> starting = [
+  List<StartingModel> starting =
+  [
     StartingModel(
       'assets/images/one.png',
       'Plan Your Trip',
@@ -42,6 +47,7 @@ class StartScreen extends StatelessWidget {
     ),
   ];
 
+  bool isLast = false;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +57,18 @@ class StartScreen extends StatelessWidget {
           Expanded(
             child: PageView.builder(
               controller: nextController,
+              onPageChanged: (index){
+                if(index == starting.length - 1)
+                {
+                  setState(()
+                  {
+                    isLast = true;
+                  });
+                }else
+                  {
+                    isLast = false;
+                  }
+              },
               physics: BouncingScrollPhysics(),
               itemBuilder: (context, index) => buildStartItem(starting[index]),
               itemCount: starting.length,
@@ -94,12 +112,24 @@ class StartScreen extends StatelessWidget {
                 TextButton(
                   onPressed: ()
                   {
-                    nextController.nextPage(
-                      duration: const Duration(
-                        milliseconds: 750,
-                      ),
-                      curve: Curves.fastLinearToSlowEaseIn,
-                    );
+                    if(isLast)
+                    {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return LoginScreen();
+                          },
+                        ),
+                      );
+                    }else{
+                      nextController.nextPage(
+                        duration: const Duration(
+                          milliseconds: 750,
+                        ),
+                        curve: Curves.fastLinearToSlowEaseIn,
+                      );
+                    }
+
                   },
                   child: const Text(
                     'NEXT',
