@@ -121,14 +121,15 @@ class _StartScreenState extends State<StartScreen> {
                           },
                         ),
                       );
-                    }else{
-                      nextController.nextPage(
-                        duration: const Duration(
-                          milliseconds: 750,
-                        ),
-                        curve: Curves.fastLinearToSlowEaseIn,
-                      );
-                    }
+                    }else
+                      {
+                        nextController.nextPage(
+                          duration: const Duration(
+                            milliseconds: 750,
+                          ),
+                          curve: Curves.fastLinearToSlowEaseIn,
+                        );
+                      }
 
                   },
                   child: const Text(
